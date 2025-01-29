@@ -1,89 +1,3 @@
-// import React, { useState } from "react";
-// import styled from "styled-components";
-
-
-// function Login({ setIsLoggedIn, setUsername }) {
-//   const [username, setLocalUsername] = useState("");
-//   const [password, setPassword] = useState("");
-
-//   const handleLogin = () => {
-//     // Simple login validation (replace with real authentication)
-//     if (username === "user" && password === "password") {
-//       setUsername(username);  // Set the username in the parent App component
-//       setIsLoggedIn(true); // Set login status to true
-//     } else {
-//       alert("Invalid credentials");
-//     }
-//   };
-
-//   return (
-//     <LoginStyled>
-//       <div className="login-form">
-//         <h2>Login</h2>
-//         <input
-//           type="text"
-//           placeholder="Username"
-//           value={username}
-//           onChange={(e) => setLocalUsername(e.target.value)}
-//         />
-//         <input
-//           type="password"
-//           placeholder="Password"
-//           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
-//         />
-//         <button onClick={handleLogin}>Login</button>
-//       </div>
-//     </LoginStyled>
-//   );
-// }
-
-// const LoginStyled = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 100vh;
-//   background: #f0f0f0;
-
-//   .login-form {
-//     background: #fff;
-//     padding: 2rem;
-//     border-radius: 10px;
-//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-//     text-align: center;
-//     width: 300px;
-
-//     h2 {
-//       margin-bottom: 1rem;
-//     }
-
-//     input {
-//       width: 100%;
-//       padding: 0.8rem;
-//       margin-bottom: 1rem;
-//       border: 1px solid #ddd;
-//       border-radius: 5px;
-//     }
-
-//     button {
-//       width: 100%;
-//       padding: 1rem;
-//       background-color: #4caf50;
-//       color: white;
-//       border: none;
-//       border-radius: 5px;
-//       cursor: pointer;
-
-//       &:hover {
-//         background-color: #45a049;
-//       }
-//     }
-//   }
-// `;
-
-// export default Login;
-
-
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -134,7 +48,7 @@ function Auth({ isLoggedIn, setIsLoggedIn, setUsername }) {
       <div className="auth-form">
         {!isLoggedIn ? (
           <>
-            <h2>{isSignup ? "Signup" : "Login"}</h2>
+            <h2>{isSignup ? "Create Account" : "Login"}</h2>
             {error && <p className="error">{error}</p>}
             <input
               type="text"
@@ -169,32 +83,48 @@ const AuthStyled = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #f0f0f0;
+  background: linear-gradient(135deg, #e1bee7, #c5cae9);
 
+  /* Ensure the auth-form is centered */
   .auth-form {
     background: #fff;
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 300px;
+    width: 100%;
+    max-width: 400px; /* Limit form size */
+    box-sizing: border-box; /* Ensure padding is part of width */
+    transition: all 0.3s ease-in-out;
 
     h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
       margin-bottom: 1rem;
+      color: #333;
     }
 
     .error {
-      color: red;
+      color: #ff4d4d;
       font-size: 0.9rem;
       margin-bottom: 1rem;
+      font-weight: 500;
     }
 
     input {
       width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
       border: 1px solid #ddd;
-      border-radius: 5px;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        border-color: #4caf50;
+        outline: none;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+      }
     }
 
     button {
@@ -202,12 +132,19 @@ const AuthStyled = styled.div`
       padding: 1rem;
       background-color: #4caf50;
       color: white;
+      font-size: 1.1rem;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
       cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
 
       &:hover {
         background-color: #45a049;
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.98);
       }
     }
 
@@ -216,10 +153,18 @@ const AuthStyled = styled.div`
       cursor: pointer;
       margin-top: 10px;
       text-decoration: underline;
+      font-size: 0.95rem;
     }
 
     .logout-btn {
       background-color: #d9534f;
+      color: white;
+      padding: 1rem;
+      width: 100%;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
 
       &:hover {
         background-color: #c9302c;
@@ -229,4 +174,5 @@ const AuthStyled = styled.div`
 `;
 
 export default Auth;
+
 

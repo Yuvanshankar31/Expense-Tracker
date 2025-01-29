@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import bg from './img/bg.png';
-import { MainLayout } from './styles/Layouts';
+import bg from "./img/bg.png";
+import { MainLayout } from "./styles/Layouts";
 import Orb from "./components/Orb/Orb";
 import Navigation from "./components/Navigation/Navigation";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -11,54 +11,61 @@ import Expenses from "./components/Expenses/Expenses";
 import Login from "./components/Login/Login"; 
 import { useGlobalContext } from "./context/globalContext";
 
+// Styled Component for App
+const AppStyled = styled.div`
+  height: 100vh;
+  background-image: url(${(props) => props.bg});
+  position: relative;
+
+  main {
+    flex: 1;
+    background: rgba(252, 246, 249, 0.78);
+    border: 3px solid #ffffff;
+    backdrop-filter: blur(4.5px);
+    border-radius: 32px;
+    overflow-x: hidden;
+  }
+`;
+
 function App() {
   const [active, setActive] = useState(1);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
-  const [username, setUsername] = useState(""); // State to store the username
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
 
   const global = useGlobalContext();
   console.log(global);
 
-  const displayData = () => {
-    switch (active) {
-      case 1:
-        return <Dashboard />;
-      case 2:
-        return <Dashboard />;
-      case 3:
-        return <Income />;
-      case 4:
-        return <Expenses />;
-      default:
-        return <Dashboard />;
-    }
-  };
-
+  // Memoize the Orb component
   const orbMemo = useMemo(() => {
     return <Orb />;
   }, []);
-
-  
 
   return (
     <Router>
       <AppStyled bg={bg} className="App">
         {orbMemo}
         <MainLayout>
-          {/* Conditional rendering based on login status */}
           {!isLoggedIn ? (
             <Routes>
               <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />} />
             </Routes>
           ) : (
             <>
-              <Navigation active={active} setActive={setActive} />
+              {/* Pass username and sign-out function to Navigation */}
+              <Navigation 
+                active={active} 
+                setActive={setActive} 
+                isLoggedIn={isLoggedIn} 
+                setIsLoggedIn={setIsLoggedIn} 
+                username={username} 
+              />
               <main>
-                {displayData()}
-                {/* Display username and add sign-out button */}
+                {/* Conditional rendering based on active state */}
+                {active === 1 && <Dashboard />}
+                {active === 2 && <Dashboard />}
+                {active === 3 && <Income />}
+                {active === 4 && <Expenses />}
                 <div className="user-info">
-                  <span>Welcome, {username}!</span>
-                  
                 </div>
               </main>
             </>
@@ -69,40 +76,5 @@ function App() {
   );
 }
 
-const AppStyled = styled.div`
-  height: 100vh;
-  background-image: url(${props => props.bg});
-  position: relative;
-  main {
-    flex: 1;
-    background: rgba(252, 246, 249, 0.78);
-    border: 3px solid #ffffff;
-    backdrop-filter: blur(4.5px);
-    border-radius: 32px;
-    overflow-x: hidden;
-  }
-
-  .user-info {
-    text-align: center;
-    margin-top: 20px;
-    span {
-      display: block;
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 0.8rem 1.5rem;
-      background-color: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #e60000;
-      }
-    }
-  }
-`;
-
 export default App;
+
